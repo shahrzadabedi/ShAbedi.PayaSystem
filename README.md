@@ -1,12 +1,21 @@
 # ShAbedi.PayaSystem
-This project Has been designed to simulate Paya System.
-It consist two services: 1: ShAbedi.PayaSystem.Api 2: ShAbedi.PayaSystem.Jobs
-The architecture is clean architecture.
-PayaRequest can have different States:
 
+This project has been designed to simulate the **Paya System**.
+
+It consists of two services:
+1. **ShAbedi.PayaSystem.Api**
+2. **ShAbedi.PayaSystem.Jobs**
+
+The architecture follows the **Clean Architecture** pattern.
+
+---
+
+## 🧾 Sheba Request States
+
+```csharp
 public enum ShebaRequestStatus
 {
-    Pending= 0,
+    Pending = 0,
     ReadyToComplete = 1, // The same as Confirmed
     ReadyForRetry = 2,
     Completed = 3,
@@ -14,13 +23,21 @@ public enum ShebaRequestStatus
     Canceled = 5,
     Failed = 6
 }
-Workflow:
-When a user places a ShebaCommand, it is now the operator's turn either to Confirm or Cancel the Sheba request. After confirming it the request is schduled to transfer the money to destination account. If the request is canceled by the operator it is then scheduled to return to the account owner. 
+```
+Workflow
 
-Locking the Amount:
-We lock the amount of money for the user to later transfer to the destination account.
+When a user places a ShebaCommand, it becomes the operator's responsibility to either Confirm or Cancel the Sheba request.
+
+If Confirmed, the request is scheduled to transfer the money to the destination account.
+
+If Canceled, it is scheduled to return the amount to the account owner.
+
+💰 Locking the Amount
+
+We lock the amount of money for the user to later transfer it to the destination account.
 
 Lock States:
+```csharp
 public enum AmountLockStatus
 {
     Locked = 0,       // Locked 
@@ -28,8 +45,9 @@ public enum AmountLockStatus
     Canceled = 2,     // Transfer was canceled
     Failed = 3        // Transfer failed
 }
-
+```
 Transaction Types:
+```csharp
 public enum TransactionType
 {
     Lock = 0,       // Lock
@@ -39,3 +57,4 @@ public enum TransactionType
     ReleaseLock = 4,//Release Lock
     FailLock = 5   // Fail Lock
 }
+```
