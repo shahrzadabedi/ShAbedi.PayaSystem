@@ -24,13 +24,20 @@ public enum ShebaRequestStatus
     Failed = 6
 }
 ```
-### Workflow
+### **Workflow**
 
-When a user places a ShebaCommand, it becomes the operator's responsibility to either Confirm or Cancel the Sheba request.
+The workflow of the system is designed to simulate how a real Paya request is processed from creation to completion.
 
-If Confirmed, the request is scheduled to transfer the money to the destination account.
+1. A **user** initiates a transfer by creating a **ShebaCommand**.  
+2. The **operator** reviews the request and decides whether to **Confirm** or **Cancel** it.  
+3. If the request is **Confirmed**, it moves to the **ReadyToComplete** state and is scheduled for fund transfer to the destination account.  
+4. If the request is **Canceled**, it moves to the **ReadyToCancel** state and is scheduled to return the locked amount to the account owner.  
+5. During execution, the system locks the required amount using the **AmountLocks** table to ensure that the funds are reserved for the operation.  
+6. Once the transfer or refund is processed:
+   - If successful → The request state changes to **Completed**, and the lock status changes to **Released**.  
+   - If canceled → The lock status becomes **Canceled**.  
+   - If failed → The system updates both the request and lock to **Failed**, and the operation can be retried if needed.
 
-If Canceled, it is scheduled to return the amount to the account owner.
 
 ## 💰 Locking the Amount
 
