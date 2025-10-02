@@ -24,7 +24,7 @@ public enum ShebaRequestStatus
     Failed = 6
 }
 ```
-Workflow
+### Workflow
 
 When a user places a ShebaCommand, it becomes the operator's responsibility to either Confirm or Cancel the Sheba request.
 
@@ -32,7 +32,7 @@ If Confirmed, the request is scheduled to transfer the money to the destination 
 
 If Canceled, it is scheduled to return the amount to the account owner.
 
-💰 Locking the Amount
+### 💰 Locking the Amount
 
 We lock the amount of money for the user to later transfer it to the destination account.
 
